@@ -86,6 +86,7 @@
         //If the number passed is a decimal point, checks if decimal is already in the current number and exits early if it does.
         if (number === '.' && this.currentOperand.includes('.')) return
         this.currentOperand = this.currentOperand.toString() + number.toString()
+        const hello = 0
     }
     /**
      * Method sets the desired operation as it is inputed. 
