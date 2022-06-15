@@ -29,7 +29,7 @@
  *          Multiply by -1
  * 
  *  - Implement Percent Operator
- *           Multiply by 0.1
+ *           Multiply by 0.01
  * 
  *  - Implement Equals Operator 
  *           Multiple '=' inputs
