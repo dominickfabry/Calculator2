@@ -54,6 +54,8 @@
      */
 
     constructor(previousOperandText, currentOperandText) {
+
+        
         this.previousOperandText = previousOperandText
         this.currentOperandText = currentOperandText
         this.clear()
