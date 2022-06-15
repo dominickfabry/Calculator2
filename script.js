@@ -3,7 +3,7 @@
  * @author - Dominick Fabry
  * 
  * 
- * 
+ * THE FINAL CHANGE
  * 
  *  IPhone Calculator App Version 0.2.0
  * 
@@ -75,7 +75,6 @@
 
     /**
      * 
-     * WRITING A BUNCH OF TEXT HERE FOR AN EXAMPLE
      * 
      * Migrate clear into this so AC button works on delete as well as ALL Clear
      */
