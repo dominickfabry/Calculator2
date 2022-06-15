@@ -109,8 +109,6 @@
 
     }
 
-
-
     /**
      * 
      */
@@ -151,40 +149,37 @@
 
     }
 
-    getDisplayNum(number) {
+    getDisplayNumber(number) {
         const num = number.toString()
-        const integers = parseFloat(num.split('.')[0])
-        const decimals = num.split('.')[1]
-        const float = parseFloat(number)
+        const integer = parseFloat(num.split('.')[0])
+        const decimal = num.split('.')[1]
         let display
-        if (isNaN(integers)) {
-            display = ''
+        if (isNaN(integer)) {
+          display = ''
         } else {
-            display = integers.toLocaleString('en', { maximumFractionDigits: 0 })
+          display = integer.toLocaleString('en', { maximumFractionDigits: 0 })
         }
-        if (decimals != null) {
-            return `${integers}.${decimals}`
+        if (decimal != null) {
+          return `${display}.${decimal}`
         } else {
-            return integers
+          return display
         }
-    }
-
-    /**
-     * 
-     */
-    updateDisplay() {
-        this.currentOperandText.innerText = this.getDisplayNum(this.currentOperand)
+      }
+    
+      updateDisplay() {
+        this.currentOperandText.innerText =
+          this.getDisplayNumber(this.currentOperand)
         if (this.operation != null) {
-            this.previousOperandText.innerText = `${this.getDisplayNum(this.previousOperand)} ${this.operation}`
+          this.previousOperandText.innerText =
+            `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+        } else {
+          this.previousOperandText.innerText = ''
         }
-        else
-            this.previousOperandText.innerText = ''
-
-
+      }
     }
 
 
-}
+
 
 
 const numberButtons = document.querySelectorAll('[data-number]')
