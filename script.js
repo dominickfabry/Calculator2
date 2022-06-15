@@ -2,7 +2,7 @@
 /**
  * @author - Dominick Fabry
  * 
- * HELLLLLOOOO
+ * 
  * 
  * 
  *  IPhone Calculator App Version 0.2.0
@@ -58,7 +58,6 @@
 
     constructor(previousOperandText, currentOperandText) {
 
-        
         this.previousOperandText = previousOperandText
         this.currentOperandText = currentOperandText
         this.clear()
@@ -75,6 +74,9 @@
     }
 
     /**
+     * 
+     * WRITING A BUNCH OF TEXT HERE FOR AN EXAMPLE
+     * 
      * Migrate clear into this so AC button works on delete as well as ALL Clear
      */
 
