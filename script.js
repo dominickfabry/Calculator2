@@ -3,18 +3,13 @@
  * @author - Dominick Fabry
  * 
  * 
- * THE FINAL CHANGE
  * 
  *  IPhone Calculator App Version 0.2.0
  * 
  * 
  * Need to update visuals to IPhone calculator app
- *      - Large 0 Button
- *      - Circular Buttons
- *      - Change Colors Back
  *      - Find way to make animations for buttons 
  *          (delayed hover trigger almost like a pulse of light when pressed, operations glow white after pressed until fulfilled)
- *      - Find way to fix display not showing properly when using updates buttons.
  * 
  * Delete button and clear button need to be the same, add more functionaly so AC button works as both
  *  (AC Text must swtich to 'C' when not all clearing, Switches to 'C' still need to understand???)
@@ -26,28 +21,21 @@
  *              Display: 4 (+ is highlighted) Input: 8
  *              Display: 8 Input: =
  *              Display: 12 )
- * 
- *  - Implement Inverse Operator
- *          Must work for both flipping to neg and flipping to pos (Evaluates and displays right away????)
- *          Multiply by -1
- * 
- *  - Implement Percent Operator
- *           Multiply by 0.01
- * 
+
  *  - Implement Equals Operator 
  *           Multiple '=' inputs
  *          (Ex. Input: 2*1= Output = 2
  *               Input: = Output: 4)
  *           Re-pressing '=' executes the previous operation  ie. 2*2+1 wil continously add 1 to total (must investigate further????)
  * 
- *  - Implement All Other Operators
  *  - Add more documentation to all source files.
  * 
  *  
  */
 
 
- class Calculator {
+class Calculator {
+
     /**
      * 
      * Constructor for creating a new Calculator.  Calculator is initlized, with buttons being able to interact with it.
@@ -82,6 +70,7 @@
     delete() {
 
     }
+
     /**
      * Method appends inputed numbers to the end of the current operand being created.
      * 
@@ -91,6 +80,7 @@
     appendNum(number) {
         //If the number passed is a decimal point, checks if decimal is already in the current number and exits early if it does.
         if (number === '.' && this.currentOperand.includes('.')) return
+        //Appends new number to current operand.
         this.currentOperand = this.currentOperand.toString() + number.toString()
     }
     /**
@@ -114,15 +104,36 @@
         this.currentOperand = ''
 
     }
-
     /**
      * 
+     * Method is used to apply a percentage modifer and an inverse moddifier on the current operand.
+     * 
+     * @param {*} extraOp - Current operator being applied to a current operand.
+     * @returns - Exit early if there is not current operand.
      */
-     compute() {
+    inLineOperators(extraOp) {
+        //If checks if there is a current operand for operator to be applied to.
+        if (this.currentOperand == '')
+            return
+        //If else checks which operator is inputed.
+        if (extraOp == "+/-")
+            this.currentOperand = parseFloat(this.currentOperand) * -1
+        else
+            this.currentOperand = parseFloat(this.currentOperand) * 0.01
+    }
+
+    /**
+     * Method takes current and previous opperand, and performs the inputed operator on them.  
+     */
+
+    compute() {
+        //Initilize variables for computed value, current operand, and previous opperand.
         let comp
         const prev = parseFloat(this.previousOperand)
         const cur = parseFloat(this.currentOperand)
+        //If either the previous or current operand does not exist, exit before computation as both are required.
         if (isNaN(prev) || isNaN(cur)) return
+        //Switch statement for various operations.
         switch (this.operation) {
             case '+':
                 comp = prev + cur
@@ -136,53 +147,62 @@
             case '×':
                 comp = prev * cur
                 break
-            case '%':
-                comp = cur*0.01
-                this.currentOperand = comp
-                return
-
-            case '+/-':
-                comp = cur* -1
-                this.currentOperand = comp
-                return
             default:
                 return
 
         }
+        //Set current operand to the new computed number, default current operation to undefined, and clears the previous operand.
         this.currentOperand = comp
         this.operation = undefined
         this.previousOperand = ''
 
     }
-
+    /**
+     * Method updates the display number so commas are placed in correct locations in the display number.  
+     *
+     * 
+     * @param {*} number - Number to be displayed.
+     * @returns - Returns concatination of integer and decimal portions of number, or just the integer portion.
+     */
     getDisplayNumber(number) {
+        //Initlize current number to be displayed, integer portion of this number, and decimal portion of this number.
         const num = number.toString()
         const integer = parseFloat(num.split('.')[0])
         const decimal = num.split('.')[1]
         let display
+        //If integer is not a number, set integer portion of display to empty, prepare for decimal portion.
         if (isNaN(integer)) {
-          display = ''
+            display = ''
+            //Else number has integer portion, inserts commas into correction positions.
         } else {
-          display = integer.toLocaleString('en', { maximumFractionDigits: 0 })
+            display = integer.toLocaleString('en', { maximumFractionDigits: 0 })
         }
+        //If the number has a decimal portion, concatinates current display number with the decimal portion.
         if (decimal != null) {
-          return `${display}.${decimal}`
+            return `${display}.${decimal}`
+            //Else return current display number.
         } else {
-          return display
+            return display
         }
-      }
-    
-      updateDisplay() {
-        this.currentOperandText.innerText =
-          this.getDisplayNumber(this.currentOperand)
-        if (this.operation != null) {
-          this.previousOperandText.innerText =
-            `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
-        } else {
-          this.previousOperandText.innerText = ''
-        }
-      }
     }
+
+    /**
+     * Method is used to update the current display everytime a new number is inputed.
+     */
+    updateDisplay() {
+        //Updates the display current opperand to the new current opperand. 
+        this.currentOperandText.innerText =
+            this.getDisplayNumber(this.currentOperand)
+        //If an operation was inputed, concatinates previous operand with operation symbol. 
+        if (this.operation != null) {
+            this.previousOperandText.innerText =
+                `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+            //Else no operation was inputed, ensure previous operand is still empty.
+        } else {
+            this.previousOperandText.innerText = ''
+        }
+    }
+}
 
 
 
@@ -202,6 +222,7 @@ numberButtons.forEach(button => {
         calculator.appendNum(button.innerText)
         calculator.updateDisplay()
     })
+
 })
 
 operationButtons.forEach(button => {
@@ -211,6 +232,12 @@ operationButtons.forEach(button => {
     })
 })
 
+functionButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.inLineOperators(button.innerText)
+        calculator.updateDisplay()
+    })
+})
 
 
 clearButton.addEventListener('click', () => {
