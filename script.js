@@ -187,7 +187,7 @@ class Calculator {
     }
 
     /**
-     * Method is used to update the current display everytime a new number is inputed.
+     * Method is used to update the current display everytime calculator recieves a new input.
      */
     updateDisplay() {
         //Updates the display current opperand to the new current opperand. 
@@ -207,7 +207,7 @@ class Calculator {
 
 
 
-
+//Inport data for all buttons on the calculator.
 const numberButtons = document.querySelectorAll('[data-number]')
 const operationButtons = document.querySelectorAll('[data-operation]')
 const functionButtons = document.querySelectorAll('[data-function]')
@@ -216,14 +216,51 @@ const clearButton = document.querySelector('[data-clear]')
 const previousOperandText = document.querySelector('[data-previous-operand]')
 const currentOperandText = document.querySelector('[data-current-operand]')
 const calculator = new Calculator(previousOperandText, currentOperandText)
+const symbols = ["+", "-", "*", "/"]
 
+
+//Event listener allows for keystrokes to be used as inputs.
+document.addEventListener('keypress', function (event) {
+    let inputKey = event.key
+
+    if (parseFloat(inputKey) || inputKey == ".") {
+        calculator.appendNum(inputKey)
+        calculator.updateDisplay()
+    }
+    else if (symbols.includes(inputKey)) {
+        if (inputKey == "/")
+            inputKey = "÷"
+        else if (inputKey == "*")
+            inputKey = "×"
+
+        calculator.chooseOperation(inputKey)
+        calculator.updateDisplay()
+    }
+
+    else if (inputKey =="%") {
+        calculator.inLineOperators(inputKey)
+        calculator.updateDisplay()
+    }
+
+    else if (inputKey == "Backspace") {
+        calculator.clear()
+        calculator.updateDisplay()
+    }
+
+    else if (inputKey == "=" || inputKey == "Enter") {
+        calculator.compute()
+        calculator.updateDisplay()
+    }
+})
+
+//Event listners for each button type, listener allows buttons to be clicked and their text data to be manipulted and displayed.
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
         calculator.appendNum(button.innerText)
         calculator.updateDisplay()
     })
-
 })
+
 
 operationButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -238,7 +275,6 @@ functionButtons.forEach(button => {
         calculator.updateDisplay()
     })
 })
-
 
 clearButton.addEventListener('click', () => {
     calculator.clear()
